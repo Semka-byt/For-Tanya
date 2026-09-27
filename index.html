@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя ❤</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============ ПЕРЕМЕННЫЕ ============ */
+        :root {
+            --rose: #e8a4b8;
+            --rose-deep: #c96d8a;
+            --gold: #d4a574;
+            --cream: #fdf8f5;
+            --soft-pink: #fbeef2;
+            --text: #4a3a42;
+            --text-soft: #8a7680;
+            --font-display: 'Great Vibes', cursive;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+        }
+
+        /* ============ СБРОС ============ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-serif);
+            background: linear-gradient(180deg, #fdf8f5 0%, #fbeef2 50%, #f5dce4 100%);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ============ ПАРЯЩИЕ СЕРДЕЧКИ ============ */
+        .hearts-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            bottom: -50px;
+            color: var(--rose);
+            opacity: 0;
+            animation: floatUp linear infinite;
+            filter: blur(0.5px);
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(-110vh) rotate(360deg) scale(0.6);
+                opacity: 0;
+            }
+        }
+
+        /* ============ ДЕКОРАТИВНЫЕ УГЛЫ ============ */
+        .corner {
+            position: fixed;
+            font-size: 3rem;
+            color: var(--rose);
+            opacity: 0.15;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .corner-tl { top: 30px; left: 40px; transform: rotate(-20deg); }
+        .corner-tr { top: 30px; right: 40px; transform: rotate(20deg); }
+        .corner-bl { bottom: 30px; left: 40px; transform: rotate(20deg); }
+        .corner-br { bottom: 30px; right: 40px; transform: rotate(-20deg); }
+
+        /* ============ КОНТЕЙНЕР ============ */
+        .page {
+            position: relative;
+            z-index: 10;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 80px 30px 100px;
+        }
+
+        /* ============ ШАПКА ============ */
+        .header {
+            text-align: center;
+            margin-bottom: 70px;
+            animation: fadeDown 1.5s ease both;
+        }
+
+        .header .for-you {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-bottom: 20px;
+            padding-left: 0.5em;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3.5rem, 10vw, 6rem);
+            font-weight: 400;
+            color: var(--rose-deep);
+            line-height: 1;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 20px rgba(232, 164, 184, 0.3);
+        }
+
+        .header .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            color: var(--rose);
+            font-size: 1.2rem;
+        }
+
+        .header .divider::before,
+        .header .divider::after {
+            content: '';
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(90deg, transparent, var(--rose), transparent);
+        }
+
+        /* ============ ТЕКСТ ПИСЬМА ============ */
+        .letter {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: clamp(35px, 6vw, 60px);
+            border-radius: 4px;
+            border: 1px solid rgba(232, 164, 184, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(201, 109, 138, 0.12),
+                inset 0 0 80px rgba(251, 238, 242, 0.5);
+            position: relative;
+        }
+
+        .letter::before,
+        .letter::after {
+            content: '❦';
+            position: absolute;
+            color: var(--rose);
+            font-size: 1.5rem;
+            opacity: 0.6;
+        }
+
+        .letter::before { top: 20px; left: 25px; }
+        .letter::after { bottom: 20px; right: 25px; }
+
+        .letter p {
+            font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+            color: var(--text);
+            margin-bottom: 22px;
+            text-align: justify;
+            text-indent: 1.5em;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .letter p:last-child {
+            margin-bottom: 0;
+        }
+
+        .letter p:nth-child(1) { animation-delay: 0.3s; }
+        .letter p:nth-child(2) { animation-delay: 0.6s; }
+        .letter p:nth-child(3) { animation-delay: 0.9s; }
+        .letter p:nth-child(4) { animation-delay: 1.2s; }
+        .letter p:nth-child(5) { animation-delay: 1.5s; }
+        .letter p:nth-child(6) { animation-delay: 1.8s; }
+        .letter p:nth-child(7) { animation-delay: 2.1s; }
+        .letter p:nth-child(8) { animation-delay: 2.4s; }
+
+        .letter .accent {
+            font-family: var(--font-display);
+            font-size: 1.6em;
+            color: var(--rose-deep);
+            line-height: 1;
+            text-indent: 0;
+            display: inline;
+        }
+
+        .letter .highlight {
+            color: var(--rose-deep);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        /* ============ ПОДПИСЬ ============ */
+        .signature {
+            text-align: right;
+            margin-top: 50px;
+            opacity: 0;
+            animation: fadeInUp 1s ease 2.7s forwards;
+        }
+
+        .signature .label {
+            font-family: var(--font-sans);
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            margin-bottom: 8px;
+        }
+
+        .signature .name {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: var(--rose-deep);
+            line-height: 1;
+        }
+
+        /* ============ ФИНАЛЬНАЯ СЕКЦИЯ ============ */
+        .finale {
+            text-align: center;
+            margin-top: 80px;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease 3s forwards;
+        }
+
+        .finale .heart-icon {
+            font-size: 4rem;
+            color: var(--rose-deep);
+            display: inline-block;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 5px 20px rgba(201, 109, 138, 0.4));
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.15); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+        }
+
+        .finale .line {
+            font-family: var(--font-serif);
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-soft);
+            margin-top: 20px;
+        }
+
+        /* ============ АНИМАЦИИ ПОЯВЛЕНИЯ ============ */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ АДАПТИВ ============ */
+        @media (max-width: 600px) {
+            .page { padding: 50px 20px 70px; }
+            .letter p { text-align: left; text-indent: 0; }
+            .corner { font-size: 2rem; }
+            .corner-tl, .corner-tr { top: 15px; }
+            .corner-bl, .corner-br { bottom: 15px; }
+            .corner-tl, .corner-bl { left: 15px; }
+            .corner-tr, .corner-br { right: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Декоративные углы -->
+    <div class="corner corner-tl">❀</div>
+    <div class="corner corner-tr">❀</div>
+    <div class="corner corner-bl">❀</div>
+    <div class="corner corner-br">❀</div>
+
+    <!-- Фон с сердечками -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="page">
+
+        <!-- ЗАГОЛОВОК -->
+        <header class="header">
+            <p class="for-you">Для тебя</p>
+            <h1>Я счастлив</h1>
+            <div class="divider">❤</div>
+        </header>
+
+        <!-- ПИСЬМО -->
+        <article class="letter">
+
+            <p>
+                <span class="accent">Я</span> не знаю, с чего начать, потому что 
+                все слова кажутся слишком маленькими для того, что я чувствую. 
+                Но я всё равно попробую — потому что ты заслуживаешь знать, 
+                насколько ты важна для меня.
+            </p>
+
+            <p>
+                Каждое утро, когда я открываю глаза, первая мысль — о тебе. 
+                И знаешь, что удивительно? Эта мысль не становится привычной. 
+                Она не тускнеет со временем. Она <span class="highlight">светится</span> — 
+                так же ярко, как в самый первый день, когда я понял, что ты — это то самое.
+            </p>
+
+            <p>
+                Я счастлив, когда вижу твою улыбку. 
+                Счастлив, когда слышу твой голос — даже если ты просто говоришь 
+                что-то обычное, вроде «как дела?, как настроение?». Особенно тогда.
+                Счастлив в тишине рядом с тобой — потому что эта тишина 
+                <span class="highlight">наполнена тобой</span>, и этого достаточно.
+            </p>
+
+            <p>
+                С тобой я стал лучше. Не потому что ты меня меняла — 
+                а потому что рядом с тобой мне захотелось быть тем, 
+                кем я могу гордиться. Ты — не причина, по которой я стал другим. 
+                Ты — причина, по которой я захотел.
+            </p>
+
+            <p>
+                Я люблю наши мелочи. Люблю, как ты смеёшься над своими же шутками. 
+                Как хмуришься, когда что-то не получается. Как засыпаешь 
+                на полуслове. Люблю твою руку в своей — именно там, где ей место.
+            </p>
+
+            <p>
+                Иногда я думаю: как так вышло, что среди миллиардов людей, 
+                среди бесконечных случайностей, я нашёл именно тебя? 
+                И каждый раз прихожу к одному выводу: 
+                <span class="highlight">это не случайность. Это лучшее, что случилось в моей жизни.</span>
+            </p>
+
+            <p>
+                Спасибо, что ты рядом. Спасибо, что выбираешь меня каждый день. 
+                Спасибо за твоё терпение, за твою нежность, за твоё сердце — 
+                которое ты доверила мне. Я не подведу. Обещаю.
+            </p>
+
+            <p>
+                И если когда-нибудь ты усомнишься — вспомни эти строки. 
+                Вспомни, что есть человек, для которого ты — 
+                <span class="accent">целый мир.</span>
+                И этот человек — я.
+            </p>
+
+            <!-- ПОДПИСЬ -->
+            <div class="signature">
+                <div class="label">Навсегда твой</div>
+                <div class="name">Я</div>
+            </div>
+
+        </article>
+
+        <!-- ФИНАЛ -->
+        <div class="finale">
+            <div class="heart-icon">❤</div>
+            <p class="line">Ты — моё самое любимое «навсегда»</p>
+        </div>
+
+    </div>
+
+    <script>
+        // ============ ГЕНЕРАЦИЯ ПАРЯЩИХ СЕРДЕЧЕК ============
+        const heartsBg = document.getElementById('heartsBg');
+        const heartSymbols = ['❤', '♡', '❥', '✿', '❀'];
+        const heartCount = 25;
+
+        for (let i = 0; i < heartCount; i++) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            
+            // Случайные параметры
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = (Math.random() * 20 + 12) + 'px';
+            heart.style.animationDuration = (Math.random() * 10 + 12) + 's';
+            heart.style.animationDelay = (Math.random() * 15) + 's';
+            
+            // Случайный оттенок розового
+            const hues = ['#e8a4b8', '#c96d8a', '#f5b8c8', '#d4a574'];
+            heart.style.color = hues[Math.floor(Math.random() * hues.length)];
+            
+            heartsBg.appendChild(heart);
+        }
+
+        // ============ КЛИК ПО ЭКРАНУ — ДОБАВИТЬ СЕРДЕЧКО ============
+        document.addEventListener('click', (e) => {
+            const heart = document.createElement('div');
+            heart.textContent = '❤';
+            heart.style.position = 'fixed';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            heart.style.color = '#c96d8a';
+            heart.style.fontSize = '24px';
+            heart.style.pointerEvents = 'none';
+            heart.style.zIndex = '9999';
+            heart.style.transform = 'translate(-50%, -50%)';
+            heart.style.transition = 'all 1.5s ease-out';
+            heart.style.opacity = '1';
+            
+            document.body.appendChild(heart);
+            
+            requestAnimationFrame(() => {
+                heart.style.transform = 'translate(-50%, -150px) scale(0)';
+                heart.style.opacity = '0';
+            });
+            
+            setTimeout(() => heart.remove(), 1600);
+        });
+    </script>
+
+</body>
+</html>
