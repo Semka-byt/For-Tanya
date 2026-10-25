@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Наши воспоминания 📷</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8a4b8;
+        --rose-deep: #c96d8a;
+        --rose-soft: #f5dce4;
+        --cream: #fdf8f5;
+        --text: #4a3a42;
+        --text-soft: #8a7680;
+        --text-light: #b5a5ae;
+        --white: #ffffff;
+        --font-display: "Great Vibes", cursive;
+        --font-serif: "Cormorant Garamond", serif;
+        --font-sans: "Montserrat", sans-serif;
+        --shadow-soft: 0 10px 40px rgba(201, 109, 138, 0.15);
+        --shadow-hover: 0 15px 50px rgba(201, 109, 138, 0.25);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: var(--font-serif);
+        background: linear-gradient(
+          180deg,
+          #fdf8f5 0%,
+          #fbeef2 50%,
+          #f5dce4 100%
+        );
+        color: var(--text);
+        line-height: 1.8;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      button,
+      input {
+        font: inherit;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        background: none;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Фон-сердечки */
+      .hearts-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .heart {
+        position: absolute;
+        bottom: -50px;
+        opacity: 0;
+        animation: floatUp linear infinite;
+        filter: blur(0.5px);
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(1);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(360deg) scale(0.6);
+          opacity: 0;
+        }
+      }
+
+      /* Уголки */
+      .corner {
+        position: fixed;
+        font-size: 3rem;
+        color: var(--rose);
+        opacity: 0.15;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .corner-tl {
+        top: 30px;
+        left: 40px;
+        transform: rotate(-20deg);
+      }
+      .corner-tr {
+        top: 30px;
+        right: 40px;
+        transform: rotate(20deg);
+      }
+      .corner-bl {
+        bottom: 30px;
+        left: 40px;
+        transform: rotate(20deg);
+      }
+      .corner-br {
+        bottom: 30px;
+        right: 40px;
+        transform: rotate(-20deg);
+      }
+
+      /* === КНОПКА «НА ГЛАВНУЮ» === */
+      .back-home {
+        position: fixed;
+        top: 22px;
+        left: 22px;
+        z-index: 150;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 22px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(232, 164, 184, 0.45);
+        color: var(--rose-deep);
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        box-shadow: 0 6px 20px rgba(201, 109, 138, 0.18);
+        transition: all 0.3s ease;
+      }
+      .back-home:hover {
+        background: var(--white);
+        border-color: var(--rose-deep);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(201, 109, 138, 0.3);
+      }
+      .back-home:active {
+        transform: translateY(0);
+      }
+      .back-home .arrow {
+        font-size: 16px;
+        transition: transform 0.3s ease;
+      }
+      .back-home:hover .arrow {
+        transform: translateX(-4px);
+      }
+
+      /* Контейнер */
+      .page {
+        position: relative;
+        z-index: 10;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 100px 20px 80px;
+      }
+
+      /* Шапка */
+      .gallery-header {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+      .gallery-header h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 7vw, 4rem);
+        color: var(--rose-deep);
+        font-weight: 400;
+        line-height: 1.1;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 20px rgba(232, 164, 184, 0.3);
+      }
+      .gallery-header p {
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+      }
+      .gallery-header .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        color: var(--rose);
+        font-size: 1.2rem;
+        margin-top: 25px;
+      }
+      .gallery-header .divider::before,
+      .gallery-header .divider::after {
+        content: "";
+        height: 1px;
+        width: 60px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--rose),
+          transparent
+        );
+      }
+
+      /* Загрузка */
+      .upload-area {
+        text-align: center;
+        margin-bottom: 45px;
+      }
+      .upload-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 40px;
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 2px dashed var(--rose);
+        color: var(--rose-deep);
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .upload-btn:hover {
+        background: var(--white);
+        border-color: var(--rose-deep);
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-soft);
+      }
+      .upload-btn:active {
+        transform: translateY(-1px);
+      }
+      .upload-btn .btn-icon {
+        font-size: 20px;
+      }
+      #fileInput {
+        display: none;
+      }
+
+      /* Сетка */
+      .photo-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+      }
+      .photo-card {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.5);
+        border: 3px solid var(--white);
+        box-shadow: var(--shadow-soft);
+        transition:
+          transform 0.4s ease,
+          box-shadow 0.4s ease;
+        cursor: pointer;
+        animation: photoIn 0.5s ease;
+      }
+      @keyframes photoIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      .photo-card:hover {
+        transform: translateY(-5px) rotate(-1deg);
+        box-shadow: var(--shadow-hover);
+      }
+      .photo-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+      }
+      .photo-card:hover img {
+        transform: scale(1.05);
+      }
+
+      .photo-delete {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--rose-deep);
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 3;
+      }
+      .photo-card:hover .photo-delete {
+        opacity: 1;
+      }
+      .photo-delete:hover {
+        background: var(--rose-deep);
+        color: #fff;
+        transform: scale(1.15) rotate(90deg);
+      }
+
+      /* Пусто */
+      .gallery-empty {
+        text-align: center;
+        padding: 70px 20px;
+        color: var(--text-light);
+        grid-column: 1 / -1;
+      }
+      .gallery-empty .empty-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        opacity: 0.5;
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.7;
+        }
+      }
+      .gallery-empty p {
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.2rem;
+      }
+
+      /* Просмотр */
+      .photo-viewer {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 500;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .photo-viewer.active {
+        display: flex;
+        opacity: 1;
+      }
+      .photo-viewer img {
+        max-width: 90vw;
+        max-height: 85vh;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        animation: zoomIn 0.4s ease;
+      }
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .viewer-close {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        color: #fff;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        transition:
+          background 0.3s ease,
+          transform 0.3s ease;
+      }
+      .viewer-close:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: rotate(90deg);
+      }
+
+      /* Счётчик */
+      .photo-count {
+        text-align: center;
+        margin-top: 30px;
+        font-family: var(--font-sans);
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+      }
+
+      /* Адаптив */
+      @media (max-width: 600px) {
+        .page {
+          padding: 80px 15px 60px;
+        }
+        .corner {
+          font-size: 2rem;
+        }
+        .corner-tl,
+        .corner-tr {
+          top: 15px;
+        }
+        .corner-bl,
+        .corner-br {
+          bottom: 15px;
+        }
+        .corner-tl,
+        .corner-bl {
+          left: 15px;
+        }
+        .corner-tr,
+        .corner-br {
+          right: 15px;
+        }
+        .photo-grid {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        .upload-btn {
+          padding: 14px 28px;
+          font-size: 12px;
+        }
+        .back-home {
+          top: 15px;
+          left: 15px;
+          padding: 9px 16px;
+          font-size: 11px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="corner corner-tl">❀</div>
+    <div class="corner corner-tr">❀</div>
+    <div class="corner corner-bl">❀</div>
+    <div class="corner corner-br">❀</div>
+
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <!-- Кнопка возврата -->
+    <a href="index.html" class="back-home">
+      <span class="arrow">←</span>
+      На главную
+    </a>
+
+    <div class="page">
+      <header class="gallery-header">
+        <h1>Наши воспоминания</h1>
+        <p>Моменты, которые мы бережём</p>
+        <div class="divider">❤</div>
+      </header>
+
+      <div class="upload-area">
+        <label for="fileInput" class="upload-btn">
+          <span class="btn-icon">＋</span>
+          Добавить фото
+        </label>
+        <input type="file" id="fileInput" accept="image/*" multiple />
+      </div>
+
+      <div class="photo-grid" id="photoGrid"></div>
+
+      <p class="photo-count" id="photoCount"></p>
+    </div>
+
+    <div class="photo-viewer" id="photoViewer">
+      <button class="viewer-close" id="viewerClose" aria-label="Закрыть">
+        ✕
+      </button>
+      <img id="viewerImg" src="" alt="Просмотр фото" />
+    </div>
+
+    <script>
+      const $ = (sel) => document.querySelector(sel);
+
+      const STORAGE_KEY = "romantic_gallery_v1";
+
+      function loadPhotos() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function savePhotos(photos) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(photos));
+          return true;
+        } catch (e) {
+          alert(
+            "Не удалось сохранить: закончилось место в браузере.\nУдалите несколько фото или загрузите картинку поменьше.",
+          );
+          return false;
+        }
+      }
+
+      let photos = loadPhotos();
+
+      /* Сердечки */
+      function initHearts() {
+        const bg = $("#heartsBg");
+        const symbols = ["❤", "♡", "❥", "✿", "❀"];
+        const colors = ["#e8a4b8", "#c96d8a", "#f5b8c8", "#d4a574"];
+        for (let i = 0; i < 25; i++) {
+          const h = document.createElement("div");
+          h.className = "heart";
+          h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          h.style.left = Math.random() * 100 + "%";
+          h.style.fontSize = Math.random() * 20 + 12 + "px";
+          h.style.animationDuration = Math.random() * 10 + 12 + "s";
+          h.style.animationDelay = Math.random() * 15 + "s";
+          h.style.color = colors[Math.floor(Math.random() * colors.length)];
+          bg.appendChild(h);
+        }
+      }
+
+      /* Рендер */
+      function renderGallery() {
+        const grid = $("#photoGrid");
+        const countEl = $("#photoCount");
+
+        if (photos.length === 0) {
+          grid.innerHTML = `
+                    <div class="gallery-empty">
+                        <div class="empty-icon">📷</div>
+                        <p>Здесь пока пусто.<br>Добавьте первое фото ваших воспоминаний.</p>
+                    </div>`;
+          countEl.textContent = "";
+          return;
+        }
+
+        grid.innerHTML = photos
+          .map(
+            (photo) => `
+                <div class="photo-card" data-view-id="${photo.id}">
+                    <img src="${photo.src}" alt="Фото" loading="lazy">
+                    <button class="photo-delete" data-delete-id="${photo.id}" title="Удалить" aria-label="Удалить">✕</button>
+                </div>
+            `,
+          )
+          .join("");
+
+        const word =
+          photos.length === 1
+            ? "воспоминание"
+            : photos.length < 5
+              ? "воспоминания"
+              : "воспоминаний";
+        countEl.textContent = `${photos.length} ${word} в нашей коллекции`;
+      }
+
+      /* Сжатие */
+      function compressImage(file, maxSize = 900, quality = 0.75) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onerror = reject;
+          reader.onload = (e) => {
+            const img = new Image();
+            img.onerror = reject;
+            img.onload = () => {
+              let w = img.width,
+                h = img.height;
+              if (w > h && w > maxSize) {
+                h = Math.round((h * maxSize) / w);
+                w = maxSize;
+              } else if (h >= w && h > maxSize) {
+                w = Math.round((w * maxSize) / h);
+                h = maxSize;
+              }
+              const canvas = document.createElement("canvas");
+              canvas.width = w;
+              canvas.height = h;
+              canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+              resolve(canvas.toDataURL("image/jpeg", quality));
+            };
+            img.src = e.target.result;
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      /* Загрузка */
+      async function handleFiles(files) {
+        const list = [...files].filter((f) => f.type.startsWith("image/"));
+        if (list.length === 0) {
+          alert("Выберите файлы изображений (JPG, PNG, GIF, WebP).");
+          return;
+        }
+
+        const added = [];
+        for (const file of list) {
+          try {
+            const src = await compressImage(file);
+            added.push({
+              id:
+                Date.now().toString(36) +
+                Math.random().toString(36).slice(2, 6),
+              src,
+              ts: Date.now(),
+            });
+          } catch (err) {
+            console.warn("Не удалось обработать файл:", file.name, err);
+          }
+        }
+
+        if (added.length === 0) {
+          alert("Не удалось обработать изображения. Попробуйте другие файлы.");
+          return;
+        }
+
+        const previous = [...photos];
+        photos = [...photos, ...added];
+
+        if (!savePhotos(photos)) {
+          photos = previous;
+          renderGallery();
+          return;
+        }
+        renderGallery();
+      }
+
+      /* Просмотр */
+      function openViewer(photoId) {
+        const photo = photos.find((p) => p.id === photoId);
+        if (!photo) return;
+        $("#viewerImg").src = photo.src;
+        $("#photoViewer").classList.add("active");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeViewer() {
+        $("#photoViewer").classList.remove("active");
+        document.body.style.overflow = "";
+        setTimeout(() => {
+          $("#viewerImg").src = "";
+        }, 300);
+      }
+
+      /* Удаление */
+      function deletePhoto(photoId) {
+        if (!confirm("Удалить это фото?")) return;
+        const previous = [...photos];
+        photos = photos.filter((p) => p.id !== photoId);
+        if (!savePhotos(photos)) {
+          photos = previous;
+          return;
+        }
+        renderGallery();
+      }
+
+      /* События */
+      document.addEventListener("DOMContentLoaded", () => {
+        initHearts();
+        renderGallery();
+
+        $("#fileInput").addEventListener("change", (e) => {
+          handleFiles(e.target.files);
+          e.target.value = "";
+        });
+
+        $("#photoGrid").addEventListener("click", (e) => {
+          const delBtn = e.target.closest(".photo-delete");
+          if (delBtn) {
+            e.stopPropagation();
+            deletePhoto(delBtn.dataset.deleteId);
+            return;
+          }
+          const card = e.target.closest(".photo-card");
+          if (card) openViewer(card.dataset.viewId);
+        });
+
+        $("#viewerClose").addEventListener("click", closeViewer);
+        $("#photoViewer").addEventListener("click", (e) => {
+          if (e.target.id === "photoViewer") closeViewer();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") closeViewer();
+        });
+      });
+    </script>
+  </body>
+</html>

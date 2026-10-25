@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Для тебя ❤</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rose: #e8a4b8;
+        --rose-deep: #c96d8a;
+        --text: #4a3a42;
+        --text-soft: #8a7680;
+        --white: #ffffff;
+        --font-display: "Great Vibes", cursive;
+        --font-serif: "Cormorant Garamond", serif;
+        --font-sans: "Montserrat", sans-serif;
+        --shadow-soft: 0 10px 40px rgba(201, 109, 138, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: var(--font-serif);
+        background: linear-gradient(
+          180deg,
+          #fdf8f5 0%,
+          #fbeef2 50%,
+          #f5dce4 100%
+        );
+        color: var(--text);
+        line-height: 1.8;
+        min-height: 100vh;
+        overflow-x: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      button {
+        cursor: pointer;
+        border: none;
+        background: none;
+        font: inherit;
+        color: inherit;
+      }
+
+      /* Парящие сердечки */
+      .hearts-bg {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .heart {
+        position: absolute;
+        bottom: -50px;
+        opacity: 0;
+        animation: floatUp linear infinite;
+        filter: blur(0.5px);
+      }
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(1);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.7;
+        }
+        90% {
+          opacity: 0.7;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(360deg) scale(0.6);
+          opacity: 0;
+        }
+      }
+
+      /* Декоративные уголки */
+      .corner {
+        position: fixed;
+        font-size: 3rem;
+        color: var(--rose);
+        opacity: 0.15;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .corner-tl {
+        top: 30px;
+        left: 40px;
+        transform: rotate(-20deg);
+      }
+      .corner-tr {
+        top: 30px;
+        right: 40px;
+        transform: rotate(20deg);
+      }
+      .corner-bl {
+        bottom: 30px;
+        left: 40px;
+        transform: rotate(20deg);
+      }
+      .corner-br {
+        bottom: 30px;
+        right: 40px;
+        transform: rotate(-20deg);
+      }
+
+      /* Карточка */
+      .card {
+        position: relative;
+        z-index: 10;
+        max-width: 640px;
+        width: 100%;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        padding: clamp(35px, 7vw, 60px) clamp(25px, 6vw, 55px);
+        border-radius: 6px;
+        border: 1px solid rgba(232, 164, 184, 0.35);
+        box-shadow:
+          var(--shadow-soft),
+          inset 0 0 80px rgba(251, 238, 242, 0.5);
+        animation: cardIn 1s ease;
+      }
+      .card::before,
+      .card::after {
+        content: "❦";
+        position: absolute;
+        color: var(--rose);
+        font-size: 1.5rem;
+        opacity: 0.6;
+      }
+      .card::before {
+        top: 18px;
+        left: 22px;
+      }
+      .card::after {
+        bottom: 18px;
+        right: 22px;
+      }
+
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(25px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Заголовок */
+      .for-you {
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+        margin-bottom: 16px;
+        padding-left: 0.5em;
+      }
+
+      h1 {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 9vw, 5rem);
+        font-weight: 400;
+        color: var(--rose-deep);
+        line-height: 1;
+        margin-bottom: 18px;
+        text-shadow: 2px 2px 20px rgba(232, 164, 184, 0.3);
+      }
+
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        color: var(--rose);
+        font-size: 1.1rem;
+        margin-bottom: 26px;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        height: 1px;
+        width: 50px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--rose),
+          transparent
+        );
+      }
+
+      /* Текст */
+      .text {
+        font-size: clamp(1.05rem, 2.3vw, 1.2rem);
+        color: var(--text);
+        text-align: justify;
+        text-indent: 1.5em;
+        line-height: 1.9;
+        margin-bottom: 18px;
+        opacity: 0;
+        transform: translateY(15px);
+        animation: fadeInUp 1s ease forwards;
+      }
+      .text:last-of-type {
+        margin-bottom: 0;
+      }
+      .text:nth-of-type(1) {
+        animation-delay: 0.2s;
+      }
+      .text:nth-of-type(2) {
+        animation-delay: 0.4s;
+      }
+      .text:nth-of-type(3) {
+        animation-delay: 0.6s;
+      }
+
+      .text .accent {
+        font-family: var(--font-display);
+        font-size: 1.5em;
+        color: var(--rose-deep);
+        line-height: 1;
+      }
+      .text .highlight {
+        color: var(--rose-deep);
+        font-style: italic;
+        font-weight: 600;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Подпись */
+      .signature {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        color: var(--rose-deep);
+        margin-top: 28px;
+        opacity: 0;
+        animation: fadeInUp 1s ease 0.8s forwards;
+      }
+
+      /* Кнопки */
+      .buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 42px;
+        opacity: 0;
+        animation: fadeInUp 1s ease 1s forwards;
+      }
+
+      .btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 38px;
+        border-radius: 50px;
+        font-family: var(--font-sans);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #fff;
+        background: linear-gradient(135deg, var(--rose), var(--rose-deep));
+        box-shadow: 0 8px 25px rgba(201, 109, 138, 0.35);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
+        text-decoration: none;
+      }
+      .btn:hover {
+        transform: translateY(-4px) scale(1.04);
+        box-shadow: 0 15px 40px rgba(201, 109, 138, 0.5);
+      }
+      .btn:active {
+        transform: translateY(-2px) scale(1.01);
+      }
+      .btn .btn-icon {
+        font-size: 18px;
+        transition: transform 0.4s ease;
+      }
+      .btn:hover .btn-icon {
+        transform: scale(1.2) rotate(-10deg);
+      }
+
+      /* Адаптив */
+      @media (max-width: 500px) {
+        .buttons {
+          flex-direction: column;
+          width: 100%;
+        }
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .corner {
+          font-size: 2rem;
+        }
+        .corner-tl,
+        .corner-tr {
+          top: 15px;
+        }
+        .corner-bl,
+        .corner-br {
+          bottom: 15px;
+        }
+        .corner-tl,
+        .corner-bl {
+          left: 15px;
+        }
+        .corner-tr,
+        .corner-br {
+          right: 15px;
+        }
+        .text {
+          text-align: left;
+          text-indent: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="corner corner-tl">❀</div>
+    <div class="corner corner-tr">❀</div>
+    <div class="corner corner-bl">❀</div>
+    <div class="corner corner-br">❀</div>
+
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <main class="card">
+      <p class="for-you">Для тебя</p>
+      <h1>Танюш</h1>
+      <div class="divider">❤</div>
+
+      <p class="text">
+        <span class="accent">Т</span>ы значишь для меня больше, чем я умею
+        сказать словами. Каждый день рядом с тобой — это подарок, который я не
+        перестаю ценить. Мне нравится всё: наши разговоры ни о чём, тишина,
+        которую не нужно заполнять, смех над глупостями и даже мелочи вроде
+        «напиши когда придешь домой».
+      </p>
+
+      <p class="text">
+        Время с тобой не бывает потраченным — оно всегда становится лучшей
+        частью дня. Я рад, что мы есть друг у друга. Рад, что выбираем быть
+        вместе — не однажды, а
+        <span class="highlight">каждый день заново</span>.
+      </p>
+
+      <p class="text">
+        И этот маленький сайт — наша тихая гавань: здесь наши фото, наши слова,
+        наша история. Пусть он напоминает нам, что даже в суете важно
+        останавливаться и быть рядом.
+        <span class="highlight">Ты — целый мир, и этот мир — мой.</span>
+      </p>
+
+      <p class="signature">Навсегда твой</p>
+
+      <div class="buttons">
+        <a href="gallery.html" class="btn">
+          <span class="btn-icon">📷</span>
+          Галерея
+        </a>
+        <a href="chat.html" class="btn">
+          <span class="btn-icon">💌</span>
+          Чат
+        </a>
+      </div>
+    </main>
+
+    <script>
+      (function initHearts() {
+        const bg = document.getElementById("heartsBg");
+        const symbols = ["❤", "♡", "❥", "✿", "❀"];
+        const colors = ["#e8a4b8", "#c96d8a", "#f5b8c8", "#d4a574"];
+
+        for (let i = 0; i < 22; i++) {
+          const h = document.createElement("div");
+          h.className = "heart";
+          h.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+          h.style.left = Math.random() * 100 + "%";
+          h.style.fontSize = Math.random() * 20 + 12 + "px";
+          h.style.animationDuration = Math.random() * 10 + 12 + "s";
+          h.style.animationDelay = Math.random() * 15 + "s";
+          h.style.color = colors[Math.floor(Math.random() * colors.length)];
+          bg.appendChild(h);
+        }
+      })();
+    </script>
+  </body>
+</html>
